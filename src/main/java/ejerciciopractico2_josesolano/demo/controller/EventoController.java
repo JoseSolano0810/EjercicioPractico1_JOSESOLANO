@@ -18,18 +18,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
-@RequestMapping("/producto")
-public class ProductoController {
+@RequestMapping("/Evento")
+public class EventoController {
 
     @Autowired
-    private ProductoService productoService;
+    private EventoService productoService;
     
     @Autowired
     private CategoriaService categoriaService;
 
     @GetMapping("/listado")
     public String listado(Model model) {
-        var lista = productoService.getProductos(false);
+        var lista = productoService.getEventos(false);
         model.addAttribute("productos", lista);
         
         var categorias = categoriaService.getCategorias(true);
@@ -40,7 +40,7 @@ public class ProductoController {
     }
 
     @GetMapping("/nuevo")
-    public String productoNuevo(Producto producto) {
+    public String productoNuevo(Evento evento) {
         return "/producto/modifica";
     }
 
@@ -48,34 +48,34 @@ public class ProductoController {
     private FirebaseStorageServiceImpl firebaseStorageService;
 
     @PostMapping("/guardar")
-    public String productoGuardar(Producto producto,
+    public String productoGuardar(Evento evento,
             @RequestParam("imagenFile") MultipartFile imagenFile) {
         if (!imagenFile.isEmpty()) {
-            productoService.save(producto);
-            producto.setRutaImagen(
+            productoService.save(evento);
+            evento.setRutaImagen(
                     firebaseStorageService.cargaImagen(
                             imagenFile,
-                            "producto",
-                            producto.getIdProducto()));
+                            "evento",
+                            evento.getIdEvento()));
         }
-        productoService.save(producto);
-        return "redirect:/producto/listado";
+        productoService.save(evento);
+        return "redirect:/evento/listado";
     }
 
-    @GetMapping("/eliminar/{idProducto}")
-    public String productoEliminar(Producto producto) {
-        productoService.delete(producto);
-        return "redirect:/producto/listado";
+    @GetMapping("/eliminar/{idEvento}")
+    public String productoEliminar(Evento evento) {
+        productoService.delete(evento);
+        return "redirect:/evento/listado";
     }
 
-    @GetMapping("/modificar/{idProducto}")
-    public String productoModificar(Producto producto, Model model) {
-        producto = productoService.getProducto(producto);
-        model.addAttribute("producto", producto);
+    @GetMapping("/modificar/{idEvento}")
+    public String productoModificar(Evento evento, Model model) {
+        evento = productoService.getEvento(evento);
+        model.addAttribute("producto", evento);
         
         var categorias = categoriaService.getCategorias(false);
         model.addAttribute("categorias",categorias);
         
-        return "/producto/modifica";
+        return "/evento/modifica";
     }
 }

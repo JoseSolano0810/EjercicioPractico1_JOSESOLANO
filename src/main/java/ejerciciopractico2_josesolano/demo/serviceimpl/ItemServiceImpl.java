@@ -38,16 +38,16 @@ public class ItemServiceImpl implements ItemService {
             //Busca si ya existe el evento en el carrito
             if (Objects.equals(i.getIdEvento(), item.getIdEvento())) {
                 //Valida si aún puede colocar un item adicional -segun existencias-
-                if (i.getCantidad() < item.getExistencias()) {
+                if (i.getCapacidad() < item.getCapacidad()) {
                     //Incrementa en 1 la cantidad de elementos
-                    i.setCantidad(i.getCantidad() + 1);
+                    i.setCapacidad(i.getCapacidad() + 1);
                 }
                 existe = true;
                 break;
             }
         }
         if (!existe) {//Si no está el evento en el carrito se agrega cantidad =1.            
-            item.setCantidad(1);
+            item.setCapacidad(1);
             listaItems.add(item);
         }
     }
@@ -85,7 +85,7 @@ public class ItemServiceImpl implements ItemService {
     public void actualiza(Item item) {
         for (Item i : listaItems) {
             if (Objects.equals(i.getIdEvento(), item.getIdEvento())) {
-                i.setCantidad(item.getCantidad());
+                i.setCapacidad(item.getCapacidad());
                 break;
             }
         }
@@ -129,15 +129,15 @@ public class ItemServiceImpl implements ItemService {
 
         double total = 0;
         for (Item i : listaItems) {
-            System.out.println("Producto: " + i.getDescripcion()
-                    + " Cantidad: " + i.getCantidad()
-                    + " Total: " + i.getPrecio() * i.getCantidad());
-            Venta venta = new Venta(factura.getIdFactura(), i.getIdEvento(), i.getPrecio(), i.getCantidad());
+            System.out.println("Evento: " + i.getDescripcion()
+                    + " Capacidad: " + i.getCapacidad()
+                    + " Total: " + i.getTipo() * i.getCapacidad());
+            Venta venta = new Venta(factura.getIdFactura(), i.getIdEvento(), i.getTipo(), i.getCantidad());
             ventaDao.save(venta);
             Evento evento = eventoDao.getReferenceById(i.getIdEvento());
-            evento.setExistencias(evento.getExistencias()-i.getCantidad());
+            evento.setCapacidad(evento.getCapacidad()-i.getCapacidad());
             eventoDao.save(evento);
-            total += i.getPrecio() * i.getCantidad();
+            total += i.getTipo() * i.getCapacidad();
         }
         
         factura.setTotal(total);

@@ -19,9 +19,10 @@ public class Item extends Evento {
         super.setIdEvento(evento.getIdEvento());
         super.setCategoria(evento.getCategoria());
         super.setDescripcion(evento.getDescripcion());
-        super.setDetalle(evento.getDetalle());
-        super.setPrecio(evento.getPrecio());
-        super.setExistencias(evento.getExistencias());
+        super.setTipo(evento.getTipo());
+        super.setCapacidad(evento.getCapacidad());
+        super.setFecha_inicio(evento.getFecha_inicio());
+        super.setFecha_fin(evento.getFecha_fin());
         super.setActivo(evento.isActivo());
         super.setRutaImagen(evento.getRutaImagen());
         this.cantidad = 0;

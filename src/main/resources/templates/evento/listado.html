@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/199/xhtml">
+    <head th:replace="~{layout/plantilla :: head}">
+        <title>TravelCom</title>
+    </head>
+    <body>
+         <header th:replace="~{layout/plantilla :: header}"/>
+         
+         <section th:replace="~{evento/fragmentos :: botonesAgregar}"/>
+         <section th:replace="~{evento/fragmentos :: agregarEventos}"/>
+         <section th:replace="~{evento/fragmentos :: listadoEventos}"/>
+         
+         <footer th:replace="~{layout/plantilla :: footer}"/>
+    </body>
+</html>
+
